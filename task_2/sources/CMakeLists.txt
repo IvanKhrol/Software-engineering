@@ -1,4 +1,4 @@
-set(EXEC task_3)
+set(EXEC task_2)
 
 if ("${OS_TYPE}" EQUAL "UNKNOWN")
   message(FATAL_ERROR "Unknown type of OS")
@@ -30,12 +30,20 @@ set(UI_HEADERS
 set(HEADERS
   ${PROJECT_ROOT_DIR}/sources/mainwindow/mainwindow.hpp
   ${PROJECT_ROOT_DIR}/sources/MouseHandler/mousehandler.hpp
+  ${PROJECT_ROOT_DIR}/sources/Multimedia/multimedia.hpp
+  ${PROJECT_ROOT_DIR}/sources/Multimedia/RenderArea/renderarea.hpp
 )
 
 set (SOURCES
   ${PROJECT_ROOT_DIR}/sources/main.cpp
   ${PROJECT_ROOT_DIR}/sources/mainwindow/mainwindow.cpp
   ${PROJECT_ROOT_DIR}/sources/MouseHandler/mousehandler.cpp
+  ${PROJECT_ROOT_DIR}/sources/Multimedia/multimedia.cpp
+  ${PROJECT_ROOT_DIR}/sources/Multimedia/RenderArea/renderarea.cpp
+)
+
+set (RESOURCES
+  ${PROJECT_ROOT_DIR}/sources/resources/resource.qrc
 )
 
 qt_add_executable(${EXEC} 

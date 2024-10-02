@@ -6,8 +6,9 @@
 #include <QtGui>
 
 #include <MouseHandler/mousehandler.hpp>
+#include <Multimedia/multimedia.hpp>
 
-#define APP_NAME "TASK 3"
+#define APP_NAME "TASK 2"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,7 +27,8 @@ private:
   void setup_MainWindow();
 
   Ui::MainWindow *ui;
-  MouseHandler *mouseHandler;
+  MouseHandler  *mouseHandler;
+  Multimedia    *multimedia;
 
 private slots:
   void show_MouseHandler() const;

@@ -16,22 +16,25 @@ void MainWindow::setup_MainWindow() {
   setWindowTitle(APP_NAME);
   
   setCentralWidget(ui->layoutWidget);
+
   mouseHandler = new MouseHandler;
   mouseHandler->hide();
   ui->mainLayout->addWidget(mouseHandler);
 
+  multimedia = new Multimedia;
+  multimedia->hide();
+  ui->mainLayout->addWidget(multimedia);
 
   connect(ui->go2MouseHandlerBtn, &QPushButton::clicked, this, &MainWindow::show_MouseHandler);
   connect(ui->go2MultimediaBtn,   &QPushButton::clicked, this, &MainWindow::show_Multimedia);
 }
 
 void MainWindow::show_MouseHandler() const {
-  if(false) {
-    //TODO: hide Multimedia layout if it is show
+  if(!multimedia->isHidden()) {
+    multimedia->hide();
   }
 
   if(mouseHandler->isHidden()) {
-    
     mouseHandler->show();
   } else {
     mouseHandler->hide();
@@ -43,7 +46,9 @@ void MainWindow::show_Multimedia() const {
     mouseHandler->hide();
   }
 
-  if(false) {
-    //TODO: show and hide Multimedia layout
+  if(multimedia->isHidden()) {
+    multimedia->show();
+  } else {
+    multimedia->hide();
   }
 }

@@ -5,8 +5,6 @@
 #include <QtGui>
 #include <QDebug>
 
-#define APP_NAME "TASK 3"
-
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MouseHandler;
