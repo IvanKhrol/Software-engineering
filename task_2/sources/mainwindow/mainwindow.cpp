@@ -18,7 +18,6 @@ void MainWindow::setup_MainWindow() {
   setCentralWidget(ui->layoutWidget);
   mouseHandler = new MouseHandler;
   mouseHandler->hide();
-  // mouseHandler->setDisabled(true);
   ui->mainLayout->addWidget(mouseHandler);
 
 

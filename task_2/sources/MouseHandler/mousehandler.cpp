@@ -4,7 +4,10 @@
 MouseHandler::MouseHandler(QWidget *parent) : QWidget(parent), ui(new Ui::MouseHandler) {
   ui->setupUi(this);
   setFocusPolicy(Qt::StrongFocus); 
-  setMouseTracking(true);
+
+  /*FIXME: В теории если раскоментить эту строчку, 
+    то мышка будет всегда дектектить а не только при зажимании, но это плохо работает */
+  // setMouseTracking(true); 
 }
 
 MouseHandler::~MouseHandler() { 
@@ -12,7 +15,6 @@ MouseHandler::~MouseHandler() {
 }
 
 void MouseHandler::mouseMoveEvent(QMouseEvent *event) {
-  qDebug() << "mouseMoveEvent";
   int x = event->pos().x();
   int y = height() - event->pos().y();
   ui->realtime_lineEdit->setText(QString("X: %1, Y: %2").arg(x).arg(y));
