@@ -27,5 +27,7 @@ protected:
   void mouseMoveEvent(QMouseEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;
 
+  void paintEvent(QPaintEvent *event) override;
+
 };
 #endif // __mousehandler_hpp_
