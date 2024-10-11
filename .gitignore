@@ -1,3 +1,4 @@
 bild/
 build/
 .vscode*
+CMakeLists.txt.user
