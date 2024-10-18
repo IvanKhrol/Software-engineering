@@ -26,11 +26,17 @@ set(UI_HEADERS)
 
 set(HEADERS
   ${PROJECT_ROOT_DIR}/sources/MainWindow/MainWindow.hpp
+  ${PROJECT_ROOT_DIR}/sources/Polygon/Polygon.hpp
+  ${PROJECT_ROOT_DIR}/sources/RenderArea/RenderArea.hpp
+  ${PROJECT_ROOT_DIR}/sources/Editor/Editor.hpp
 )
 
 set (SOURCES
   ${PROJECT_ROOT_DIR}/sources/main.cpp
   ${PROJECT_ROOT_DIR}/sources/MainWindow/MainWindow.cpp
+  ${PROJECT_ROOT_DIR}/sources/Polygon/Polygon.cpp
+  ${PROJECT_ROOT_DIR}/sources/RenderArea/RenderArea.cpp
+  ${PROJECT_ROOT_DIR}/sources/Editor/Editor.cpp
 )
 
 set (RESOURCES)

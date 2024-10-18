@@ -1,42 +1,25 @@
 #include "MainWindow.hpp"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), 
+                        mainLayout(new QGridLayout), renderArea(new RenderArea(this)),
+                        nSpinBox(new QSpinBox), positionLineEdit(new QLineEdit),
+                        dialogEditor(new Editor) {
   setWindowTitle(APP_NAME);
-  
-  auto centralWidget = new QWidget();
-  setCentralWidget(centralWidget);
-  auto mainLayout = new QGridLayout(centralWidget);
+  setFont(QFont("Times", 16));
 
-  auto testLabel  = new QLabel("Здесь будет Polygon Widget");
-  mainLayout->addWidget(testLabel, 0, 0, 2, 2, Qt::AlignCenter);
+  int margin = 25;
+  setContentsMargins(margin, margin, margin, margin);
+  setCentralWidget(renderArea.get());
 
-  
-  nSpinBox = new QSpinBox();
-  nSpinBox->setMinimum(3);
-  nSpinBox->setMaximum(N_MAX_COUNT);
-  nSpinBox->setSingleStep(1);
-  auto nLabel = new QLabel(QString("&N"));
-  nLabel->setBuddy(nSpinBox);
-  
-  
+  drawPolygon();
 
-  positionLineEdit = new QLineEdit();
-  positionLineEdit->setPlaceholderText(QString(tr("Add point positions in format: (x1, y2), (x2, y2) ...")));
-  positionLineEdit->setMinimumSize(fontMetrics().averageCharWidth() * positionLineEdit->placeholderText().size(), 
-                                   fontMetrics().height()); 
-  auto positionLabel = new QLabel(QString(tr("&Point positions")));
-  positionLabel->setBuddy(positionLineEdit);
+  connect(renderArea.get(), &RenderArea::show_editor, 
+          this, &MainWindow::drawPolygon);
 
-  auto drawButton = new QPushButton(QString(tr("&Draw")));
-  connect(drawButton, &QPushButton::clicked, this, &MainWindow::drawPolygonWidget);
-
-  mainLayout->setColumnStretch(1, 1);
-  mainLayout->addWidget(nLabel, 3, 0, Qt::AlignRight);
-  mainLayout->addWidget(nSpinBox, 3, 1, Qt::AlignLeft);
-  mainLayout->addWidget(positionLabel, 4, 0, Qt::AlignRight);
-  mainLayout->addWidget(positionLineEdit, 4, 1, Qt::AlignLeft);
-  mainLayout->addWidget(drawButton, 5, 0, 1, 2, Qt::AlignCenter);
-
+  connect(renderArea.get(), &RenderArea::sendPolygon,
+          [this](const Polygon *p, int p_num, const QSize &size) {
+            dialogEditor.get()->getPolygon(p, p_num, size);
+          });
 
   // add ctrl+q shortcut for exit
   auto actionClose = new QAction();
@@ -45,18 +28,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
   QObject::connect(actionClose, &QAction::triggered, this, &QCoreApplication::quit);
 }
 
-MainWindow::~MainWindow() {}
-
-void MainWindow::drawPolygonWidget() const {
-  int n = nSpinBox->text().toInt();
-  QString base_regex = "(\\s*\\(\\s*\\d+\\s*,\\s*\\d+\\s*\\))\\s*";
-  QString out_regex  = "^";
-
-  for(int i = 0; i < n - 1; ++i) {
-      out_regex += base_regex + ",\\s*";
+void MainWindow::drawPolygon() {
+  qDebug() << DPREFIX"drawPolygon";
+  if(dialogEditor->isNew) {
+    dialogEditor.reset(new Editor());
   }
-  out_regex += base_regex + "$";
 
-  QRegularExpression re(out_regex);
-  qDebug() << re.match(positionLineEdit->text()).hasMatch();
+  if (dialogEditor->exec() == QDialog::Accepted) {
+    QStringList     vertices  = dialogEditor->getPoints();
+    QVector<QColor> colors    = dialogEditor->getColors();
+    int p_num = dialogEditor->getPolygonNumber();
+    
+    renderArea.get()->setPolygon(vertices, colors, p_num);
+  }
 }
+
+MainWindow::~MainWindow() = default;
